@@ -21,8 +21,8 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         """Filter the values of  the log record"""
-        print(record)
-        return filter_datum(self.fields, self.REDACTION, record, self.SEPARATOR)
+        fmt = super().format(record)
+        return filter_datum(self.fields, self.REDACTION, fmt, self.SEPARATOR)
 
 
 def filter_datum(
@@ -37,9 +37,3 @@ def filter_datum(
     for i in range(len(props)):
         props[i] = re.sub(pattern, rf"\1\2{redaction}", props[i])
     return separator.join(props)
-
-
-message = "name=Bob;email=bob@dylan.com;ssn=000-123-0000;password=bobby2019;"
-log_record = logging.LogRecord("my_logger", logging.INFO, None, None, message, None, None)
-formatter = RedactingFormatter(fields=("email", "ssn", "password"))
-print(formatter.format(log_record))
