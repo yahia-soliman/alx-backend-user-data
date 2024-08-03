@@ -16,6 +16,7 @@ class RedactingFormatter(logging.Formatter):
     SEPARATOR = ";"
 
     def __init__(self, fields: Iterable[str]):
+        """Redacting Formatter constructor"""
         self.fields = fields
         super(RedactingFormatter, self).__init__(self.FORMAT)
 
@@ -32,8 +33,8 @@ def filter_datum(
     separator: str,
 ) -> str:
     """Get the log message obfuscated"""
-    pattern = rf'({"|".join(fields)})(.)(.*)'
+    pattern = rf'({"|".join(fields)})=(.*)'
     props = message.split(separator)
     for i in range(len(props)):
-        props[i] = re.sub(pattern, rf"\1\2{redaction}", props[i])
+        props[i] = re.sub(pattern, rf"\1={redaction}", props[i])
     return separator.join(props)
