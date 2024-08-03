@@ -4,11 +4,11 @@ Filtered Logger Module
 """
 
 import re
-from typing import Iterable
+from typing import List
 
 
 def filter_datum(
-    fields: Iterable[str],
+    fields: List[str],
     redaction: str,
     message: str,
     separator: str,
