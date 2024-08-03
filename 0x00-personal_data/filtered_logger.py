@@ -3,27 +3,8 @@
 Filtered Logger Module
 """
 
-import logging
 import re
 from typing import Iterable
-
-
-class RedactingFormatter(logging.Formatter):
-    """Redacting Formatter class"""
-
-    REDACTION = "***"
-    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
-    SEPARATOR = ";"
-
-    def __init__(self, fields: Iterable[str]):
-        """Redacting Formatter constructor"""
-        self.fields = fields
-        super(RedactingFormatter, self).__init__(self.FORMAT)
-
-    def format(self, record: logging.LogRecord) -> str:
-        """Filter the values of  the log record"""
-        fmt = super().format(record)
-        return filter_datum(self.fields, self.REDACTION, fmt, self.SEPARATOR)
 
 
 def filter_datum(
