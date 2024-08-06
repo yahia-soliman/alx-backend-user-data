@@ -11,7 +11,7 @@ from .auth import Auth
 class BasicAuth(Auth):
     """Authentication handler for the Basic scheme"""
 
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(self, authorization_header: str) -> str:  # nopep8
         """Get the base64 encoded string from the authorization header"""
         if isinstance(authorization_header, str):
             if authorization_header.startswith("Basic "):
@@ -26,7 +26,7 @@ class BasicAuth(Auth):
         except Exception:
             return
 
-    def extract_user_credentials(self, decoded_base64_authorization_header: str):
+    def extract_user_credentials(self, decoded_base64_authorization_header: str):  # nopep8
         """Get the username, password from a decoded authorization header"""
         if isinstance(decoded_base64_authorization_header, str):
             if ":" in decoded_base64_authorization_header:
