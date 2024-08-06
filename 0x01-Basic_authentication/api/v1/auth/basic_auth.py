@@ -24,7 +24,7 @@ class BasicAuth(Auth):
         except Exception:
             return
 
-    def extract_user_credentials(self, decoded_base64_authorization_header: str):  # nopep8
+    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> (str, str):  # nopep8
         """Get the username, password from a decoded authorization header"""
         if isinstance(decoded_base64_authorization_header, str):
             if ":" in decoded_base64_authorization_header:
