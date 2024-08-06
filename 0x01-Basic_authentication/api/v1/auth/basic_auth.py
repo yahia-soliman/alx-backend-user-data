@@ -49,7 +49,9 @@ class BasicAuth(Auth):
             if len(users) > 0 and users[0].is_valid_password(user_pwd):
                 return users[0]
 
-    def current_user(self, request: Optional[Request] = None) -> Optional[User]:
+    def current_user(
+        self, request: Optional[Request] = None
+    ) -> Optional[User]:
         """Get the current logged in user, Basic Authentication shceme"""
         ah = self.authorization_header(request)
         b64 = self.extract_base64_authorization_header(ah)

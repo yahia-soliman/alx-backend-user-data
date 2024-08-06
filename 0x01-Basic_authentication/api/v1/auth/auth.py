@@ -26,10 +26,14 @@ class Auth:
             return False
         return True
 
-    def authorization_header(self, request: Optional[Request] = None) -> Optional[str]:
+    def authorization_header(
+        self, request: Optional[Request] = None
+    ) -> Optional[str]:
         """Get the Authorization Header from the request"""
         return request.headers.get("Authorization") if request else None
 
-    def current_user(self, request: Optional[Request] = None) -> Optional[User]:
+    def current_user(
+        self, request: Optional[Request] = None
+    ) -> Optional[User]:
         """Get the current logged in user"""
         return None
