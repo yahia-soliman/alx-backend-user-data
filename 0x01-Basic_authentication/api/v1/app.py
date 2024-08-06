@@ -3,7 +3,7 @@
 Route module for the API
 """
 from os import getenv
-from typing import Tuple
+from typing import Optional, Tuple
 
 from flask import Flask, Response, abort, jsonify, request
 from flask_cors import CORS
@@ -26,7 +26,7 @@ elif AUTH_TYPE == "basic_auth":
 
 
 @app.before_request
-def before_request():
+def before_request() -> Optional[Response]:
     """Handle the Authentication before any request"""
     if not auth or not auth.require_auth(
         request.path,
@@ -47,13 +47,13 @@ def not_found(_) -> Tuple[Response, int]:
 
 @app.errorhandler(401)
 def unauthorized(_) -> Tuple[Response, int]:
-    """Not found handler"""
+    """Un authorized error handler"""
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def forbidden(_) -> Tuple[Response, int]:
-    """Not found handler"""
+    """For bidden error handler"""
     return jsonify({"error": "Forbidden"}), 403
 
 

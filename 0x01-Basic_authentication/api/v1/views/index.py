@@ -31,7 +31,7 @@ def stats() -> Response:
 @app_views.route("/unauthorized")
 def unauth() -> Response:
     """GET /api/v1/unauthorized
-    Raise 401 error
+    Raises 401 error
     """
     return abort(401)
 
@@ -39,6 +39,6 @@ def unauth() -> Response:
 @app_views.route("/forbidden")
 def forbidden() -> Response:
     """GET /api/v1/forbidden
-    Raise 403 error
+    Raises 403 error
     """
     return abort(403)
