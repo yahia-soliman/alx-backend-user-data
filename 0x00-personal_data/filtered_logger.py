@@ -8,7 +8,7 @@ import re
 from typing import List
 
 
-PII_FIELDS = ["email", "phone", "ssn", "password", "ip"]
+PII_FIELDS = ("email", "phone", "ssn", "password", "ip")
 
 
 class RedactingFormatter(logging.Formatter):
@@ -44,6 +44,7 @@ def filter_datum(
 
 
 def get_logger() -> logging.Logger:
+    """Create a new logger"""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.WARN)
     logger.propagate = False
