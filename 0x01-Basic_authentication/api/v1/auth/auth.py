@@ -2,19 +2,13 @@
 """Module for managing API Authentication
 """
 
-from typing import List, Optional
-
-from flask import Request
-
-from models.user import User
+from typing import List, TypeVar
 
 
 class Auth:
     """Class for managing Authentication"""
 
-    def require_auth(
-        self, path: Optional[str], excluded_paths: Optional[List[str]]
-    ) -> bool:
+    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """Check if a URL path requires auth or not
         Returns:
             True  - requires authentication, when path is not excluded
@@ -26,14 +20,10 @@ class Auth:
             return False
         return True
 
-    def authorization_header(
-        self, request: Optional[Request] = None
-    ) -> Optional[str]:
+    def authorization_header(self, request=None) -> str:
         """Get the Authorization Header from the request"""
         return request.headers.get("Authorization") if request else None
 
-    def current_user(
-        self, request: Optional[Request] = None
-    ) -> Optional[User]:
+    def current_user(self, request=None) -> TypeVar("User"):
         """Get the current logged in user"""
         return None
