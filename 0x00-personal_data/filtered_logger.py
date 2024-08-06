@@ -5,8 +5,10 @@ Filtered Logger Module
 
 import logging
 import re
+from os import getenv
 from typing import List
 
+from mysql.connector.connection import MySQLConnection
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
@@ -53,3 +55,12 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> MySQLConnection:
+    """Get MySQL database connection"""
+    host = getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    user = getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    pwd = getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db = getenv("PERSONAL_DATA_DB_NAME")
+    return MySQLConnection(user=user, password=pwd, host=host, database=db)
