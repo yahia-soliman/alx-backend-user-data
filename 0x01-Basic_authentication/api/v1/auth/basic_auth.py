@@ -31,7 +31,7 @@ class BasicAuth(Auth):
                 return tuple(decoded_base64_authorization_header.split(":", 1))
         return None, None
 
-    def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):
+    def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):  # nopep8
         """Get the user object based on his email and password"""
         from models.user import User
         if isinstance(user_email, str) and isinstance(user_pwd, str):
