@@ -2,8 +2,8 @@
 """Handling API Authentication based on the Basic scheme"""
 
 import base64
+from typing import TypeVar
 
-from models.user import User
 
 from .auth import Auth
 
@@ -33,6 +33,7 @@ class BasicAuth(Auth):
 
     def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):
         """Get the user object based on his email and password"""
+        from models.user import User
         if isinstance(user_email, str) and isinstance(user_pwd, str):
             users = User.search({"email": user_email})
             if len(users) > 0 and users[0].is_valid_password(user_pwd):
