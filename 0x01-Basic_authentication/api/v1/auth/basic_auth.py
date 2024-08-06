@@ -3,6 +3,7 @@
 
 import base64
 
+from models.user import User
 
 from .auth import Auth
 
@@ -29,3 +30,10 @@ class BasicAuth(Auth):
             if ":" in decoded_base64_authorization_header:
                 return tuple(decoded_base64_authorization_header.split(":", 1))
         return None, None
+
+    def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar("User"):
+        """Get the user object based on his email and password"""
+        if isinstance(user_email, str) and isinstance(user_pwd, str):
+            users = User.search({"email": user_email})
+            if len(users) > 0 and users[0].is_valid_password(user_pwd):
+                return users[0]
