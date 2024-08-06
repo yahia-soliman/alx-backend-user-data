@@ -64,3 +64,25 @@ def get_db() -> MySQLConnection:
     pwd = getenv("PERSONAL_DATA_DB_PASSWORD", "")
     db = getenv("PERSONAL_DATA_DB_NAME")
     return MySQLConnection(user=user, password=pwd, host=host, database=db)
+
+
+def main():
+    logger = get_logger()
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        "SELECT name, email, phone, ssn, password"
+        ", ip, last_login, user_agent FROM users;"
+    )
+    msg = (
+        "name={}; email={}; phone={}; ssn={}; password={};"
+        " ip={}; last_login={} user_agent={}"
+    )
+    for row in cursor:
+        logger.info(msg.format(*row))
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
