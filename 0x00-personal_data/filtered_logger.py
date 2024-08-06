@@ -67,6 +67,7 @@ def get_db() -> MySQLConnection:
 
 
 def main():
+    """log all the users from the database"""
     logger = get_logger()
     db = get_db()
     cursor = db.cursor()
