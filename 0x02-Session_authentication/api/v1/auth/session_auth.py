@@ -4,6 +4,8 @@
 from typing import Dict
 from uuid import uuid4
 
+from models.user import User
+
 from .auth import Auth
 
 
@@ -22,3 +24,9 @@ class SessionAuth(Auth):
     def user_id_for_session_id(self, session_id: str = None) -> str:
         """Get the user's id based on session id"""
         return self.user_id_by_session_id.get(session_id)
+
+    def current_user(self, request=None):
+        """Get the current user based on session authentication"""
+        session_id = self.session_cookie(request)
+        user_id = self.user_id_for_session_id(session_id)
+        return User.get(user_id)
