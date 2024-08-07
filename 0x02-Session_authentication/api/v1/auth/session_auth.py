@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Handling API Authentication based on the Basic scheme"""
+"""Handling API Authentication
 
-from typing import Dict
+Authentication method: session cookie
+"""
+
 from uuid import uuid4
 
 from models.user import User
@@ -12,7 +14,7 @@ from .auth import Auth
 class SessionAuth(Auth):
     """Authentication handler for the Basic scheme"""
 
-    user_id_by_session_id: Dict[str, str] = {}
+    user_id_by_session_id = {}
 
     def create_session(self, user_id: str = None) -> str:
         """Create a new session id"""
