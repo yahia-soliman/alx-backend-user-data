@@ -34,11 +34,18 @@ def before_request() -> str:
     """Handle the Authentication before any request"""
     if not auth or not auth.require_auth(
         request.path,
-        ["/api/v1/status/", "/api/v1/unauthorized/", "/api/v1/forbidden/"],
+        [
+            "/api/v1/status/",
+            "/api/v1/unauthorized/",
+            "/api/v1/forbidden/",
+            "/api/v1/auth_session/login/",
+        ],
     ):
         request.current_user = None
         return
-    if auth.authorization_header(request) is None:
+    auth_header = auth.authorization_header(request)
+    session_cookie = auth.session_cookie(request)
+    if not auth_header and not session_cookie:
         return abort(401)
     request.current_user = auth.current_user(request)
     if request.current_user is None:
