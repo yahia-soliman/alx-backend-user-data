@@ -21,6 +21,7 @@ class SessionExpAuth(SessionAuth):
         super().__init__()
 
     def create_session(self, user_id: str = None) -> str:
+        """Create a new session for user_id"""
         session_id = super().create_session(user_id)
         if session_id:
             self.user_id_by_session_id[session_id] = {
@@ -30,6 +31,7 @@ class SessionExpAuth(SessionAuth):
             return session_id
 
     def user_id_for_session_id(self, session_id: str = None) -> str:
+        """Get the user_id based on session_id"""
         session = self.user_id_by_session_id.get(session_id)
         if not session:
             return
