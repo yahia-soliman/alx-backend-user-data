@@ -17,6 +17,8 @@ class SessionDBAuth(SessionExpAuth):
 
     def create_session(self, user_id: str = None) -> str:
         """Create a new login session"""
+        if not user_id:
+            return
         session = UserSession(user_id=user_id, session_id=str(uuid4()))
         session.save()
         return session.session_id
