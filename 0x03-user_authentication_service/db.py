@@ -2,6 +2,7 @@
 """DataBase connection Wrapper"""
 
 from sqlalchemy import create_engine
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
@@ -27,7 +28,24 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
+        """Create new user and save it to the data base"""
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
+
+    def find_user_by(self, **kw) -> User:
+        """find the first user by keyworded arguments
+
+        Returns: User object, if found
+        Raises:
+            InvalidRequestError: wrong query arguments are passed
+            NoResultFound: no user found with the query arguments
+        Example:
+        >>> user = db.find_user_by(email="test@gg.ez")
+        """
+        try:
+            filters = [getattr(User, k) == v for k, v in kw.items()]
+            return self._session.query(User).filter(*filters).one()
+        except AttributeError:
+            raise InvalidRequestError
