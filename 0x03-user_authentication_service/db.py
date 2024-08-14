@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """DataBase connection Wrapper"""
 
-from typing import TypeVar
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -28,7 +26,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar("User"):
+    def add_user(self, email: str, hashed_password: str) -> User:
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
