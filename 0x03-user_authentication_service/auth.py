@@ -4,7 +4,7 @@
 from uuid import uuid4
 
 import bcrypt
-from sqlalchemy.exc import IntegrityError, NoResultFound
+from sqlalchemy.exc import IntegrityError
 
 from db import DB, User
 
@@ -37,6 +37,15 @@ class Auth:
         """Validate an email against a password"""
         try:
             user = self._db.find_user_by(email=email)
-        except NoResultFound:
+        except Exception:
             return False
         return bcrypt.checkpw(password.encode(), user.hashed_password.encode())
+
+    def create_session(self, email: str) -> str:
+        """Create a new session and get the session ID"""
+        try:
+            user = self._db.find_user_by(email=email)
+            self._db.update_user(user.id, session_id=_generate_uuid())
+            return user.session_id
+        except Exception:
+            return None
