@@ -29,10 +29,13 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """Create new user and save it to the data base"""
-        user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
-        self._session.commit()
-        return user
+        try:
+            user = User(email=email, hashed_password=hashed_password)
+            self._session.add(user)
+            self._session.commit()
+            return user
+        finally:
+            self._session.close()
 
     def find_user_by(self, **kw) -> User:
         """Retrieve the first user by keyworded arguments
