@@ -35,7 +35,7 @@ class DB:
         return user
 
     def find_user_by(self, **kw) -> User:
-        """find the first user by keyworded arguments
+        """Retrieve the first user by keyworded arguments
 
         Returns: User object, if found
         Raises:
@@ -49,3 +49,20 @@ class DB:
             return self._session.query(User).filter(*filters).one()
         except AttributeError:
             raise InvalidRequestError
+
+    def update_user(self, user_id: int, **kw) -> None:
+        """Update the user identified by `user_id`
+
+        Raises:
+            ValueError: wrong user attribute is passed
+            NoResultFound: no user found with the given `user_id`
+        Example:
+        >>> user = db.update_user(1, email="test@gg.ez")
+        """
+        user = self.find_user_by(id=user_id)
+        for k, v in kw.items():
+            if not hasattr(user, k):
+                raise ValueError
+            setattr(user, k, v)
+        self._session.add(user)
+        self._session.commit()
