@@ -34,8 +34,9 @@ class DB:
             self._session.add(user)
             self._session.commit()
             return user
-        finally:
+        except Exception:
             self._session.close()
+            raise
 
     def find_user_by(self, **kw) -> User:
         """Retrieve the first user by keyworded arguments
