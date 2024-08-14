@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """User Authentication Module"""
 
-from typing import Optional
 import bcrypt
 from sqlalchemy.exc import IntegrityError
 
@@ -42,7 +41,7 @@ class Auth:
             return False
         return bcrypt.checkpw(password.encode(), user.hashed_password.encode())
 
-    def create_session(self, email: str) -> Optional[str]:
+    def create_session(self, email: str) -> str:
         """Create a new session and get the session ID"""
         try:
             user = self._db.find_user_by(email=email)
