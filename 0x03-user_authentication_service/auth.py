@@ -2,7 +2,7 @@
 """User Authentication Module"""
 
 import bcrypt
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.exc import IntegrityError
 
 from db import DB, User
 
@@ -21,8 +21,7 @@ class Auth:
     def register_user(self, email: str, password: str) -> User:
         """Create a new user if not exists"""
         try:
-            self._db.find_user_by(email=email)
-            raise ValueError(f"User {email} already exists")
-        except NoResultFound:
             hashed_pw = _hash_password(password).decode()
             return self._db.add_user(email, hashed_pw)
+        except IntegrityError:
+            raise ValueError(f"User {email} already exists")
