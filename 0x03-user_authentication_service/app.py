@@ -11,13 +11,13 @@ app.url_map.strict_slashes = False
 
 
 @app.route("/")
-def get_root():
+def get_root() -> str:
     """basic flask json"""
     return jsonify({"message": "Bienvenue"})
 
 
 @app.route("/users", methods=["POST"])
-def users():
+def users() -> str:
     """Register new user"""
     email = request.form.get("email")
     password = request.form.get("password")
