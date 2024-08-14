@@ -61,4 +61,5 @@ class Auth:
     def destroy_session(self, session_id: str) -> None:
         """Destroy an existing session"""
         user = self.get_user_from_session_id(session_id)
-        self._db.update_user(user.id, session_id=None)
+        if user:
+            self._db.update_user(user.id, session_id=None)
