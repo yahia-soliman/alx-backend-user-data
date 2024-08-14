@@ -32,7 +32,7 @@ def users():
 
 @app.route("/sessions", methods=["POST"])
 def login():
-    """Register new user"""
+    """User login and session"""
     email = request.form.get("email")
     password = request.form.get("password")
     if not (email and password and AUTH.valid_login(email, password)):
